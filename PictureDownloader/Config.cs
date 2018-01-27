@@ -27,7 +27,8 @@ namespace PictureDownloader
         public static bool setURL(string url)
         {
             if (locked) return false;
-            _url = url;
+            if (url.IndexOf(':') == -1) _url = "http://" + url;
+            else _url = url;
             return true;
         }
 

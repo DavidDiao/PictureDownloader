@@ -56,11 +56,25 @@ namespace PictureDownloader
             Form1.f.updateProgress(current, max);
         }
 
-        public static void writeToFile(string filename, byte[] content)
+        private static object fsl = new object();
+
+        public static string writeToFile(string filename, string extension, byte[] content)
         {
-            FileStream fs = new FileStream(filename, FileMode.Create);
+            FileStream fs;
+            filename = Config.getOutput() + filename;
+            lock(fsl)
+            {
+                if (File.Exists(filename + extension))
+                {
+                    int i;
+                    for (i = 1; File.Exists(filename + "(" + i + ")" + extension); ++i) ;
+                    fs = new FileStream(filename = filename + "(" + i + ")" + extension, FileMode.Create);
+                }
+                else fs = new FileStream(filename = filename + extension, FileMode.Create);
+            }
             fs.Write(content, 0, content.Length);
             fs.Close();
+            return filename;
         }
 
         public static void log(string log)
