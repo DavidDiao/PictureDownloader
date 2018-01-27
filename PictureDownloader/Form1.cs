@@ -89,7 +89,7 @@ namespace PictureDownloader
             if (current == max)
             {
                 url.Enabled = true;
-                cookie.Enabled = true;
+                // cookie.Enabled = true;
                 start.Enabled = true;
                 end.Enabled = true;
                 length.Enabled = true;
