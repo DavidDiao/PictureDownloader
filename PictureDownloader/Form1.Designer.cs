@@ -343,7 +343,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.url);
             this.Controls.Add(this.label1);
-            this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(400, 400);
             this.Name = "Form1";
             this.Text = "图片下载器";
