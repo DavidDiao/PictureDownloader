@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -90,7 +91,9 @@ namespace PictureDownloader
         public static bool setOutput(string output)
         {
             if (locked) return false;
-            _output = output;
+            if (!Directory.Exists(output)) return false;
+            _output = output.Replace('/', '\\');
+            if (_output[_output.Length - 1] != '\\') _output += '\\';
             return true;
         }
 
