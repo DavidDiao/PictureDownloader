@@ -21,6 +21,7 @@ namespace PictureDownloader
             output.Text = Application.StartupPath;
             folderBrowserDialog1.SelectedPath = Application.StartupPath;
             f = this;
+            CheckForIllegalCrossThreadCalls = false;
             log("启动下载器");
         }
 
@@ -83,8 +84,8 @@ namespace PictureDownloader
 
         public void updateProgress(int current, int max)
         {
-            progress.Maximum = max;
-            progress.Value = current;
+            progress.Maximum = max * 100;
+            progress.Value = current * 100;
             if (current == max)
             {
                 url.Enabled = true;
@@ -102,7 +103,12 @@ namespace PictureDownloader
 
         public void log(string log)
         {
-            logger.Text += "[" + DateTime.Now.ToLocalTime() + "] " + log + "\n";
+            lock(logger)
+            {
+                logger.Text += "[" + DateTime.Now.ToLocalTime() + "] " + log + "\r\n";
+                logger.SelectionStart = logger.Text.Length;
+                logger.ScrollToCaret();
+            }
         }
     }
 }
